@@ -17,6 +17,7 @@ class Game:
         #Constants.config = new Configuration("path/to/config.cfg")
         size = 600, 900 # This should be relocated to configuration.py
         self.screen = pygame.display.set_mode(size, pygame.HWSURFACE|pygame.DOUBLEBUF)
+        pygame.display.set_caption("PolyGun")
 
     """ PolyGun setup. """
     def init(self):
@@ -46,11 +47,19 @@ while (True): # need to add timing controls here using pygame.time.clock
     # INPUT HANDLING
     
     for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit(0)
+        
         if not hasattr(event, 'key'): continue
+        
         down = event.type == KEYDOWN
         if event.key == K_LEFT: game.player.moveLeft = down
         elif event.key == K_RIGHT: game.player.moveRight = down
-        elif event.key == K_ESCAPE: sys.exit(0)
+        
+        if event.key == K_a and down: game.player.fire(projectile.ShapeEnum.CIRCLE)
+        elif event.key == K_s and down: game.player.fire(projectile.ShapeEnum.SQUARE)
+        elif event.key == K_d and down: game.player.fire(projectile.ShapeEnum.TRIANGLE)
+        
+        if event.key == K_ESCAPE: sys.exit(0)
 
     game.update()
     game.draw()

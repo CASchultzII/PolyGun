@@ -25,8 +25,8 @@ class PlayerInfo:
 
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
-        if (self.timeCooldown <= 0):
-            self.pool.generate(shapeEnum, TypeEnum.BULLET, position, 1) # Velocity of bullet should be obtained from config
+        if (self.timeCooldown <= 0): # TODO fix spawning code
+            self.pool.generate(shapeEnum, TypeEnum.BULLET, [self.position[0], self.position[1]], -500, 0) # Velocity of bullet should be obtained from config
             self.timeCooldown = 0 # TODO obtain time cooldown from config
         
     """ Checks if the player collides with the provided rect. """
@@ -52,11 +52,8 @@ class PlayerInfo:
             self.position[0] = 0
         elif self.position[0] > 600 - 128:
             self.position[0] = 600 - 128
-
-        print("Player Velocity: " + str(velocity) + "\n")
-        print("Clock Delta: " + str(Constants.clock.get_time()/1000.0) + "\n" )
-        print("Move Delta: " + str(velocity * Constants.clock.get_time() / 1000.0) + "\n")
+            
     """ Draws the player (including resource HUD and time) """
     def draw(self):
         # TODO add drawing of resource HUD and time
-        Constants.screen.blit(self.sprite, (self.position[0], self.position[1]))
+        Constants.screen.blit(self.sprite, self.position)
