@@ -68,5 +68,17 @@ class PlayerInfo:
         Constants.screen.blit(square, [132, 10])
         Constants.screen.blit(triangle, [254, 10])
         
+        font = pygame.font.Font(os.path.join("assets", "astron boy.ttf"), 48)
+        cPoints = font.render(str(self.resources[ShapeEnum.CIRCLE]), True, (255,255,255))
+        cPos = [10 + 112/2 - cPoints.get_width()/2, 109 - 99/2 - cPoints.get_height()/2 + 30]
+        sPoints = font.render(str(self.resources[ShapeEnum.SQUARE]), True, (255,255,255))
+        sPos = [132 + 112/2 - sPoints.get_width()/2, 109 - 99/2 - sPoints.get_height()/2 + 30]
+        tPoints = font.render(str(self.resources[ShapeEnum.TRIANGLE]), True, (255,255,255))
+        tPos = [254 + 112/2 - tPoints.get_width()/2, 109 - 99/2 - tPoints.get_height()/2 + 30]
+        
+        Constants.screen.blit(cPoints, cPos)
+        Constants.screen.blit(sPoints, sPos)
+        Constants.screen.blit(tPoints, tPos)
+        
         # Draw Player
         Constants.screen.blit(self.sprite, self.position)
