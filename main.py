@@ -14,7 +14,7 @@ class Game:
     def __init__(self):
         # Generate constants for game.
         Constants()
-        #Constants.config = new Configuration("path/to/config.cfg")
+        Constants.config = configuration.Configuration('settings.ini')
         size = 600, 900 # This should be relocated to configuration.py
         self.screen = pygame.display.set_mode(size, pygame.HWSURFACE|pygame.DOUBLEBUF)
         pygame.display.set_caption("PolyGun")

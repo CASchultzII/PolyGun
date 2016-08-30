@@ -28,7 +28,7 @@ class Configuration:
     """Gets the image for Game Object"""
     def getGameImage(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
-        image = pygame.image.load(os.path.join('..', 'assets', imageFile)).convert_alpha()
+        image = pygame.image.load(os.path.join('assets', imageFile)).convert_alpha()
         return image
 
 def main():
