@@ -12,11 +12,11 @@ from game.tools import Constants
 class Game:
 
     def __init__(self):
-        # Generate constants for game.
-        Constants()
-        Constants.config = configuration.Configuration('settings.ini')
         size = 600, 900 # This should be relocated to configuration.py
         self.screen = pygame.display.set_mode(size, pygame.HWSURFACE|pygame.DOUBLEBUF)
+        # Generate constants for game.
+        Constants()
+        Constants.config = configuration.Configuration('settings.ini')       
         pygame.display.set_caption("PolyGun")
         
         self.background = pygame.Surface((600, 900))
