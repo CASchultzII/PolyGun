@@ -19,7 +19,8 @@ class Configuration:
             "TriangleBullet": self.getImageCache("TriangleBullet"),
             "CircleTarget": self.getImageCache("CircleTarget"),
             "SquareTarget": self.getImageCache("SquareTarget"),
-            "TriangleTarget": self.getImageCache("TriangleTarget")
+            "TriangleTarget": self.getImageCache("TriangleTarget"),
+            "Background": self.getBackgroundCache()
         }
         
     """Gets the Targets per Second"""
@@ -42,6 +43,13 @@ class Configuration:
         imageFile = self.config['IMAGES'][gameObject]
         image = pygame.image.load(os.path.join('assets', imageFile)).convert_alpha()
         return image
+
+    def getBackgroundCache(self):
+        imageFile = self.config['IMAGES']["Background"]
+        backgroundImage = pygame.image.load(os.path.join("assets", "background.jpg")).convert()
+        background = pygame.Surface((600, 900))
+        background.blit(backgroundImage, pygame.Rect(0, 0, 600, 900))
+        return background
 
 def main():
     pygame.init()

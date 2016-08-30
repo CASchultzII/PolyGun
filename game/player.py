@@ -61,12 +61,9 @@ class PlayerInfo:
     def draw(self):
         # Draw HUD
         Constants.screen.fill((0,0,0), pygame.Rect(0, 0, 600, 120))
-        circle = pygame.image.load(os.path.join("assets", "cTarget.png")).convert_alpha()
-        square = pygame.image.load(os.path.join("assets", "sTarget.png")).convert_alpha()
-        triangle = pygame.image.load(os.path.join("assets", "tTarget.png")).convert_alpha()
-        Constants.screen.blit(circle, [10, 10])
-        Constants.screen.blit(square, [132, 10])
-        Constants.screen.blit(triangle, [254, 10])
+        Constants.screen.blit(Constants.config.getGameImage("CircleTarget"), [10, 10])
+        Constants.screen.blit(Constants.config.getGameImage("SquareTarget"), [132, 10])
+        Constants.screen.blit(Constants.config.getGameImage("TriangleTarget"), [254, 10])
         
         font = pygame.font.Font(os.path.join("assets", "astron boy.ttf"), 48)
         cPoints = font.render(str(self.resources[ShapeEnum.CIRCLE]), True, (255,255,255))
