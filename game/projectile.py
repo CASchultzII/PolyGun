@@ -4,11 +4,22 @@ from enum import Enum
 
 """
 Enum for Types of Shapes:
+    - Circle
+    - Square
+    - Triangle
+"""
+class ShapeEnum(Enum):
+    CIRCLE = 1,
+    SQUARE = 2,
+    TRIANGLE = 3
+
+"""
+Enum for Types of Projectiles:
     - Bullet
     - Target
 """
-class ShapeEnum(Enum):
-    BULLET = 1
+class TypeEnum(Enum):
+    BULLET = 1,
     TARGET = 2
 
 """
@@ -33,7 +44,7 @@ class ProjectilePool:
     """
     Generates a new projectile at the specified position with provided velocity.
     """
-    def generate(shapeEnum, position, velocity):
+    def generate(shapeEnum, typeEnum, position, velocity):
         pass
 
     """ Updates all projectiles in the pool. """
