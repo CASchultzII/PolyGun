@@ -115,7 +115,17 @@ class ProjectilePool:
             if x[0]: x[1].update()
             if x[1].position[1] > 900: x[0] = False
             
-         # TODO generate collision detection code
+        for bullet in self.bullets:
+            for target in self.targets:
+                if not bullet[0] or not target[0]: continue
+                
+                bulletRect = bullet[1].sprite.get_rect().move(bullet[1].position[0], bullet[1].position[1])
+                targetRect = target[1].sprite.get_rect().move(target[1].position[0], target[1].position[1])
+                if bulletRect.colliderect(targetRect):
+                    if (bullet[1].shape == target[1].shape):
+                        target[0] = False
+                        # increase player score
+                    bullet[0] = False
 
     """ Draws all projectiles in the pool. """
     def draw(self):
