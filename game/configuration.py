@@ -41,6 +41,8 @@ def main():
 
         screen = pygame.display.set_mode((1024, 768))
         screen.blit(cfg.getGameImage('Player'), (100, 100))
+        #screen.blit(cfg.getGameImage('CircleBullet'), (150, 150))
+        #screen.blit(cfg.getGameImage('CircleTarget'), (200, 200))
         pygame.display.flip()
         
 if __name__ == "__main__":
