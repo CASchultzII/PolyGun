@@ -47,6 +47,7 @@ class PlayerInfo:
         mod = 0
         if (self.dir != Direction.NONE):
             mod = -1 if self.dir == Direction.LEFT else 1
+            self.dir = Direction.NONE
         
         velocity = 100 * mod # pixels per second
         self.position[0] = velocity * (Constants.clock.get_time() / 1000.0)
@@ -55,7 +56,8 @@ class PlayerInfo:
         elif self.position[0] > 600 - 128:
             self.position[0] = 600 - 128
 
-        print("Player Velocity: " + velocity + "\n")
+        print("Player Velocity: " + str(velocity) + "\n")
+        print("Clock Delta: " + str(Constants.clock.get_time()/1000.0) + "\n" )
     """ Draws the player (including resource HUD and time) """
     def draw(self):
         # TODO add drawing of resource HUD and time
