@@ -23,7 +23,7 @@ class Game:
     def init(self):
         self.pool = projectile.ProjectilePool()
         self.player = player.PlayerInfo(self.pool)
-        self.tgen = generator.TargetGenerator()
+        self.tgen = generator.TargetGenerator(self.pool)
 
     """ Update game. """
     def update(self):
