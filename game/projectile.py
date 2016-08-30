@@ -29,11 +29,11 @@ to bottom.
 class Projectile:
     
     """Update this projectile."""
-    def update():
+    def update(self):
         pass
 
     """Draw this projectile."""
-    def draw():
+    def draw(self):
         pass
 
 """
@@ -44,13 +44,13 @@ class ProjectilePool:
     """
     Generates a new projectile at the specified position with provided velocity.
     """
-    def generate(shapeEnum, typeEnum, position, velocity):
+    def generate(self, shapeEnum, typeEnum, position, velocity):
         pass
 
     """ Updates all projectiles in the pool. """
-    def update():
+    def update(self):
         pass
 
     """ Draws all projectiles in the pool. """
-    def draw():
+    def draw(self):
         pass

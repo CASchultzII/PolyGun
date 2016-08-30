@@ -2,6 +2,7 @@
 
 import sys
 import pygame
+from pygame.locals import *
 pygame.init()
 
 from game import configuration, generator, player, projectile
@@ -12,16 +13,16 @@ class Game:
 
     def __init__(self):
         # Generate constants for game.
-        new Constants()
+        Constants()
         #Constants.config = new Configuration("path/to/config.cfg")
-        size = 1600, 900 # This should be relocated to configuration.py
-        self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN|pygame.HWSURFACE|pygame.DOUBLEFUB)
+        size = 600, 900 # This should be relocated to configuration.py
+        self.screen = pygame.display.set_mode(size, pygame.HWSURFACE|pygame.DOUBLEBUF)
 
     """ PolyGun setup. """
     def init(self):
-        self.player = new player.PlayerInfo()
-        self.pool = new projectile.ProjectilePool()
-        self.tgen = new generator.TargetGenerator()
+        self.pool = projectile.ProjectilePool()
+        self.player = player.PlayerInfo(self.pool)
+        self.tgen = generator.TargetGenerator()
 
     """ Update game. """
     def update(self):
@@ -31,16 +32,27 @@ class Game:
 
     """ Draw game. """
     def draw(self):
+        self.screen.fill((128, 128, 128))
         # draw background first
         self.player.draw()
         self.pool.draw()
 
-Game game = new Game()
+game = Game()
 game.init()
 Constants.screen = game.screen #BAD BAD BAD... but no choice for now
 
 Constants.clock.tick(60)
 while (True): # need to add timing controls here using pygame.time.clock
+    # INPUT HANDLING
+    
+    for event in pygame.event.get():
+        if not hasattr(event, 'key'): continue
+        down = event.type == KEYDOWN
+        if event.key == K_LEFT: game.player.dir = player.Direction.LEFT
+        elif event.key == K_RIGHT: game.player.dir = player.Direction.RIGHT
+        elif event.key == K_ESCAPE: sys.exit(0)
+
     game.update()
     game.draw()
+    pygame.display.flip()
     Constants.clock.tick(60) # target 60 frames

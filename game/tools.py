@@ -12,6 +12,6 @@ class Constants():
     class variables.
     """
     def __init__(self):
-        Constants.clock = new Clock()
+        Constants.clock = Clock()
         Constants.config = None
         Constants.screen = None
