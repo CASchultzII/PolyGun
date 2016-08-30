@@ -25,7 +25,7 @@ class Configuration:
 
 
 def main():
-    cfg = Configuration('settings.ini')
+    cfg = Configuration('..\settings.ini')
     print(cfg.getTPS())
 
 if __name__ == "__main__":
