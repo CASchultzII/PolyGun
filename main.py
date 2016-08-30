@@ -48,8 +48,8 @@ while (True): # need to add timing controls here using pygame.time.clock
     for event in pygame.event.get():
         if not hasattr(event, 'key'): continue
         down = event.type == KEYDOWN
-        if event.key == K_LEFT: game.player.dir = player.Direction.LEFT
-        elif event.key == K_RIGHT: game.player.dir = player.Direction.RIGHT
+        if event.key == K_LEFT: game.player.moveLeft = down
+        elif event.key == K_RIGHT: game.player.moveRight = down
         elif event.key == K_ESCAPE: sys.exit(0)
 
     game.update()
