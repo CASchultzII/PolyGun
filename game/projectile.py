@@ -91,18 +91,18 @@ class ProjectilePool:
         # TODO replace sprite assignments with Constants / Configuration access
         if typeEnum == TypeEnum.BULLET:
             if shapeEnum == ShapeEnum.CIRCLE:
-                sprite = pygame.image.load(os.path.join("assets", "cBullet.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('CircleBullet')
             elif shapeEnum == ShapeEnum.SQUARE:
-                sprite = pygame.image.load(os.path.join("assets", "sBullet.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('SquareBullet')
             else:
-                sprite = pygame.image.load(os.path.join("assets", "tBullet.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('TriangleBullet')
         else:
             if shapeEnum == ShapeEnum.CIRCLE:
-                sprite = pygame.image.load(os.path.join("assets", "cTarget.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('CircleTarget')
             elif shapeEnum == ShapeEnum.SQUARE:
-                sprite = pygame.image.load(os.path.join("assets", "sTarget.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('SquareTarget')
             else:
-                sprite = pygame.image.load(os.path.join("assets", "tTarget.png")).convert_alpha()
+                sprite = Constants.config.getGameImage('TriangleTarget')
         proj.sprite = sprite
         
     """ Updates all projectiles in the pool. """
