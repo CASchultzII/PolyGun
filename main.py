@@ -18,12 +18,6 @@ class Game:
         Constants()
         Constants.config = configuration.Configuration('settings.ini')       
         pygame.display.set_caption("PolyGun")
-        
-        self.background = pygame.Surface((600, 900))
-        self.background.blit(
-                pygame.image.load(os.path.join("assets", "background.jpg")).convert(),
-                pygame.Rect(0, 0, 600, 900)
-                )
 
     """ PolyGun setup. """
     def init(self):
@@ -39,7 +33,7 @@ class Game:
 
     """ Draw game. """
     def draw(self):
-        self.screen.blit(self.background, [0, 0])
+        self.screen.blit(Constants.config.getGameImage("Background"), [0, 0])
         self.player.draw()
         self.pool.draw()
 
