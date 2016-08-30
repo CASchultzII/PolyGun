@@ -25,8 +25,12 @@ class PlayerInfo:
 
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
-        if (self.timeCooldown <= 0): # TODO fix spawning code
-            self.pool.generate(shapeEnum, TypeEnum.BULLET, [self.position[0], self.position[1]], -500, 0) # Velocity of bullet should be obtained from config
+        if (self.timeCooldown <= 0):
+            position = [self.position[0], self.position[1]]
+            position[0] += 32
+            position[1] -= 70
+            
+            self.pool.generate(shapeEnum, TypeEnum.BULLET, position, -500, 0) # Velocity of bullet should be obtained from config
             self.timeCooldown = 0 # TODO obtain time cooldown from config
         
     """ Checks if the player collides with the provided rect. """
