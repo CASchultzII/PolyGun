@@ -28,12 +28,12 @@ class Configuration:
     """Gets the image for Game Object"""
     def getGameImage(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
-        image = pygame.image.load(os.path.join('..', 'assets', imageFile))
+        image = pygame.image.load(os.path.join('..', 'assets', imageFile)).convert_alpha()
         return image
 
 def main():
     pygame.init()
-    cfg = Configuration('..\settings.ini')
+    cfg = Configuration(os.path.join('..', 'settings.ini'))
     while (True):
         for event in pygame.event.get():
             if not hasattr(event, 'key'): continue
