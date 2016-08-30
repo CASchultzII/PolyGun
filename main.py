@@ -5,12 +5,15 @@ import pygame
 pygame.init()
 
 from game import configuration, generator, player, projectile
+from game.tools import Constants
 
 """ Contains game sensitive information. """
 class Game:
 
     def __init__(self):
-        #self.config = new Configuration("path/to/config.cfg")
+        # Generate constants for game.
+        new Constants()
+        #Constants.config = new Configuration("path/to/config.cfg")
         size = 1600, 900 # This should be relocated to configuration.py
         self.screen = pygame.display.set_mode(size, pygame.FULLSCREEN|pygame.HWSURFACE|pygame.DOUBLEFUB)
 
@@ -34,7 +37,10 @@ class Game:
 
 Game game = new Game()
 game.init()
+Constants.screen = game.screen #BAD BAD BAD... but no choice for now
 
+Constants.clock.tick(60)
 while (True): # need to add timing controls here using pygame.time.clock
     game.update()
     game.draw()
+    Constants.clock.tick(60) # target 60 frames

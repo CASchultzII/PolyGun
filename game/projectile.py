@@ -44,7 +44,7 @@ class ProjectilePool:
     """
     Generates a new projectile at the specified position with provided velocity.
     """
-    def generate(typeEnum, position, velocity):
+    def generate(shapeEnum, typeEnum, position, velocity):
         pass
 
     """ Updates all projectiles in the pool. """
