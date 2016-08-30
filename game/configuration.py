@@ -5,27 +5,28 @@ from configparser import ConfigParser
 """
 Holds the configuration options for the game.
 """
-class Configuration(ConfigParser):
+class Configuration:
     
-    def __init__(self):
-        self.read('settings.ini')
+    def __init__(self, config):
+        self.config = ConfigParser()
+        self.config.read(config)
         
     """Gets the Targets per Second"""
     def getTPS(self):        
-        return self['DEFAULT']['TargetsPerSecond']
+        return float(self.config['DEFAULT']['TargetsPerSecond'])
         
     """Gets the Targets per Second Squared (Acceleration)"""
     def getTPS2(self):               
-        self['DEFAULT']['TargetsPerSecondSqr']
+        return float(self.config['DEFAULT']['TargetsPerSecondSqr'])
 
     """Gets the Bullets per Second (cooldown for firing rate)"""
     def getBPS(self):
-        return self['DEFAULT']['BulletsPerSecond']
+        return float(self.config['DEFAULT']['BulletsPerSecond'])
 
 
 def main():
-    cfg = Configuration()
-    cfg.getTPS()
+    cfg = Configuration('settings.ini')
+    print(cfg.getTPS())
 
 if __name__ == "__main__":
     main()
