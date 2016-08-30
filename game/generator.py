@@ -25,7 +25,7 @@ class TargetGenerator():
                 shape = random.choice((ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE))
             
                 xpos = random.randrange(16, 600-112)
-                ypos = -70
+                ypos = 120
             
                 velocity = 250
             

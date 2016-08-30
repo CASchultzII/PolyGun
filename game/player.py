@@ -59,5 +59,14 @@ class PlayerInfo:
             
     """ Draws the player (including resource HUD and time) """
     def draw(self):
-        # TODO add drawing of resource HUD and time
+        # Draw HUD
+        Constants.screen.fill((0,0,0), pygame.Rect(0, 0, 600, 120))
+        circle = pygame.image.load(os.path.join("assets", "cTarget.png")).convert_alpha()
+        square = pygame.image.load(os.path.join("assets", "sTarget.png")).convert_alpha()
+        triangle = pygame.image.load(os.path.join("assets", "tTarget.png")).convert_alpha()
+        Constants.screen.blit(circle, [10, 10])
+        Constants.screen.blit(square, [132, 10])
+        Constants.screen.blit(triangle, [254, 10])
+        
+        # Draw Player
         Constants.screen.blit(self.sprite, self.position)

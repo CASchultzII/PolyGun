@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
+import sys, os
 import pygame
 from pygame.locals import *
 pygame.init()
@@ -18,6 +18,12 @@ class Game:
         size = 600, 900 # This should be relocated to configuration.py
         self.screen = pygame.display.set_mode(size, pygame.HWSURFACE|pygame.DOUBLEBUF)
         pygame.display.set_caption("PolyGun")
+        
+        self.background = pygame.Surface((600, 900))
+        self.background.blit(
+                pygame.image.load(os.path.join("assets", "background.jpg")).convert(),
+                pygame.Rect(0, 0, 600, 900)
+                )
 
     """ PolyGun setup. """
     def init(self):
@@ -33,8 +39,7 @@ class Game:
 
     """ Draw game. """
     def draw(self):
-        self.screen.fill((128, 128, 128))
-        # draw background first
+        self.screen.blit(self.background, [0, 0])
         self.player.draw()
         self.pool.draw()
 
@@ -43,7 +48,7 @@ game.init()
 Constants.screen = game.screen #BAD BAD BAD... but no choice for now
 
 Constants.clock.tick(60)
-while (True): # need to add timing controls here using pygame.time.clock
+while (True):
     # INPUT HANDLING
     
     for event in pygame.event.get():
