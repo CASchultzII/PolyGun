@@ -18,6 +18,8 @@ class Game:
         Constants()
         Constants.config = configuration.Configuration('settings.ini')       
         pygame.display.set_caption("PolyGun")
+        self.music = pygame.mixer.Sound(os.path.join("assets", "DivideByZero-POL.wav"))
+        self.music.play(-1)
 
     """ PolyGun setup. """
     def init(self):
