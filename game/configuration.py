@@ -57,7 +57,7 @@ class Configuration:
 
     def _getBackgroundCache(self):
         imageFile = self.config['IMAGES']["Background"]
-        backgroundImage = pygame.image.load(os.path.join("assets", "background.jpg")).convert()
+        backgroundImage = pygame.image.load(os.path.join("assets", imageFile)).convert()
         background = pygame.Surface((600, 900))
         background.blit(backgroundImage, pygame.Rect(0, 0, 600, 900))
         return background
