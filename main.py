@@ -37,8 +37,8 @@ class Game:
     """ Draw game. """
     def draw(self):
         self.screen.blit(Constants.config.getGameImage("Background"), [0, 0])
-        self.player.draw()
         self.pool.draw()
+        self.player.draw()
 
 game = Game()
 game.init()

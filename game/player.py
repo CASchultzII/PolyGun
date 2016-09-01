@@ -3,6 +3,8 @@
 import os
 from enum import Enum
 import pygame
+from pygame.font import Font
+from pygame import Rect
 from game.projectile import ShapeEnum, TypeEnum
 from game.tools import Constants
 
@@ -23,8 +25,12 @@ class PlayerInfo:
         self.moveLeft = False
         self.moveRight = False
 
+        self.gameOver = False
+
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
+        if self.gameOver: return
+        if (self.resources[shapeEnum] < 1): return # Can't fire anymore
         if (self.timeCooldown <= 0):
             position = [self.position[0], self.position[1]]
             position[0] += 32
@@ -40,6 +46,8 @@ class PlayerInfo:
 
     """ Increases or decreases the resources accordingly """
     def adjustResources(self, resources, targetRects):
+        if self.gameOver: return
+
         self.resources[ShapeEnum.CIRCLE] += resources[ShapeEnum.CIRCLE]
         self.resources[ShapeEnum.SQUARE] += resources[ShapeEnum.SQUARE]
         self.resources[ShapeEnum.TRIANGLE] += resources[ShapeEnum.TRIANGLE]
@@ -51,6 +59,13 @@ class PlayerInfo:
 
     """ Updates the player. """
     def update(self):
+        if self.resources[ShapeEnum.CIRCLE] < 0 or \
+            self.resources[ShapeEnum.SQUARE] < 0 or \
+            self.resources[ShapeEnum.TRIANGLE] < 0:
+            self.gameOver = True
+            
+        if self.gameOver: return
+
         self.timeScore += Constants.clock.get_time()
         if (self.timeCooldown > 0):
             self.timeCooldown -= Constants.clock.get_time()
@@ -77,17 +92,59 @@ class PlayerInfo:
         Constants.screen.blit(Constants.config.getGameImage("SquareTarget"), [132, 10])
         Constants.screen.blit(Constants.config.getGameImage("TriangleTarget"), [254, 10])
         
-        font = pygame.font.Font(os.path.join("assets", "astron boy.ttf"), 48)
-        cPoints = font.render(str(self.resources[ShapeEnum.CIRCLE]), True, (255,255,255))
+        font = Font(os.path.join("assets", "astron boy.ttf"), 48)
+        cString = str(self.resources[ShapeEnum.CIRCLE]) if self.resources[ShapeEnum.CIRCLE] >= 0 else "-"
+        cPoints = font.render(cString, True, (255,255,255))
         cPos = [10 + 112/2 - cPoints.get_width()/2, 109 - 99/2 - cPoints.get_height()/2 + 30]
-        sPoints = font.render(str(self.resources[ShapeEnum.SQUARE]), True, (255,255,255))
+
+        sString = str(self.resources[ShapeEnum.SQUARE]) if self.resources[ShapeEnum.SQUARE] >= 0 else "-"
+        sPoints = font.render(sString, True, (255,255,255))
         sPos = [132 + 112/2 - sPoints.get_width()/2, 109 - 99/2 - sPoints.get_height()/2 + 30]
-        tPoints = font.render(str(self.resources[ShapeEnum.TRIANGLE]), True, (255,255,255))
+
+        tString = str(self.resources[ShapeEnum.TRIANGLE]) if self.resources[ShapeEnum.TRIANGLE] >= 0 else "-"
+        tPoints = font.render(tString, True, (255,255,255))
         tPos = [254 + 112/2 - tPoints.get_width()/2, 109 - 99/2 - tPoints.get_height()/2 + 30]
         
         Constants.screen.blit(cPoints, cPos)
         Constants.screen.blit(sPoints, sPos)
         Constants.screen.blit(tPoints, tPos)
         
+        if self.gameOver:
+            font = Font(os.path.join("assets", "astron boy.ttf"), 100)
+            game = font.render("GAME", True, (255,255,255))
+            over = font.render("OVER", True, (255,255,255))
+
+            gameRect = game.get_bounding_rect()
+            overRect = over.get_bounding_rect()
+            gamePosition = [(600 - gameRect.w) / 2, 900 / 2 - gameRect.h - 10]
+            overPosition = [(600 - overRect.w) / 2, 900 / 2 + 10]
+
+            width = (gameRect.w if gameRect.w > overRect.w else overRect.w) + 40
+            height = gameRect.h + overRect.h + 60
+
+            # Create a bounding box and inner blur
+            box = pygame.Surface((width + 20, height + 20))
+            box.fill((255,255,255))
+            box.fill((0,0,0), Rect(10, 10, width, height))
+            box.set_colorkey((0,0,0))
+            boxPosition = [(600 - box.get_width()) / 2, (900 - box.get_height()) / 2]
+            # HACKS
+            boxPosition[0] += 4
+            boxPosition[1] += 16
+
+            blur = pygame.Surface((width, height))
+            blur.set_alpha(128)
+            blur.fill((0,0,0))
+            blurPosition = [boxPosition[0] + 10, boxPosition[1] + 10]
+
+            # Draw all the things
+            Constants.screen.blit(box, boxPosition)
+            Constants.screen.blit(blur, blurPosition)
+            Constants.screen.blit(game, gamePosition)
+            Constants.screen.blit(over, overPosition)
+
+            # Don't draw player...
+            return
+
         # Draw Player
         Constants.screen.blit(self.sprite, self.position)
