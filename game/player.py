@@ -26,6 +26,8 @@ class PlayerInfo:
         self.moveRight = False
 
         self.gameOver = False
+        self.music_botched = pygame.mixer.Sound(os.path.join("assets", "Botched.ogg"))
+        self.music_lazer = pygame.mixer.Sound(os.path.join("assets", "Lazer.ogg"))
 
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
@@ -37,8 +39,9 @@ class PlayerInfo:
             position[1] -= 70
             
             self.pool.generate(shapeEnum, TypeEnum.BULLET, position, -500, 0) # Velocity of bullet should be obtained from config
-            self.timeCooldown = 199 # TODO obtain time cooldown from config
+            self.timeCooldown = 200 # TODO obtain time cooldown from config
             self.resources[shapeEnum] -= 1
+            self.music_lazer.play()
         
     """ Checks if the player collides with the provided rect. """
     def collides(self, rect):
@@ -56,6 +59,7 @@ class PlayerInfo:
             rect = target.sprite.get_rect().move(target.position[0], target.position[1])
             if self.collides(rect):
                 target.collidesPlayer = True
+                self.music_botched.play()
 
     """ Updates the player. """
     def update(self):

@@ -59,6 +59,8 @@ class ProjectilePool:
     def __init__(self):
         self.bullets = []
         self.targets = []
+        self.music_confirmation = pygame.mixer.Sound(os.path.join("assets", "Confirmation.ogg"))
+        self.music_wrong = pygame.mixer.Sound(os.path.join("assets", "Wrong.ogg"))
         
         for x in range(50): # Use configuration supplied pool size
             self.bullets.append([False, Projectile(None, [0, 0], 0, 0)])
@@ -136,6 +138,9 @@ class ProjectilePool:
                     if (bullet[1].shape == target[1].shape):
                         target[0] = False
                         resources[bullet[1].shape] += 2
+                        self.music_confirmation.play()
+                    else:
+                        self.music_wrong.play()
                     bullet[0] = False
 
         return resources, liveTargets # return resources for addition to player by game.
