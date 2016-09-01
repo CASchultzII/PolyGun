@@ -13,57 +13,53 @@ class Configuration:
         self.config = ConfigParser()
         self.config.read(config)
         self.imageCache = {
-            "Cannon": self.getImageCache("Cannon"),
-            "CircleBullet": self.getImageCache("CircleBullet"),
-            "SquareBullet": self.getImageCache("SquareBullet"),
-            "TriangleBullet": self.getImageCache("TriangleBullet"),
-            "CircleTarget": self.getImageCache("CircleTarget"),
-            "SquareTarget": self.getImageCache("SquareTarget"),
-            "TriangleTarget": self.getImageCache("TriangleTarget"),
-            "Background": self.getBackgroundCache()
+            "Cannon": self._getImageCache("Cannon"),
+            "CircleBullet": self._getImageCache("CircleBullet"),
+            "SquareBullet": self._getImageCache("SquareBullet"),
+            "TriangleBullet": self._getImageCache("TriangleBullet"),
+            "CircleTarget": self._getImageCache("CircleTarget"),
+            "SquareTarget": self._getImageCache("SquareTarget"),
+            "TriangleTarget": self._getImageCache("TriangleTarget"),
+            "Background": self._getBackgroundCache()
         }
-        
-    """Gets the Targets per Second"""
-    def getTPS(self):        
-        return float(self.config['DEFAULT']['TargetsPerSecond'])
-        
-    """Gets the Targets per Second Squared (Acceleration)"""
-    def getTPS2(self):               
-        return float(self.config['DEFAULT']['TargetsPerSecondSqr'])
-
-    """Gets the Bullets per Second (cooldown for firing rate)"""
-    def getBPS(self):
-        return float(self.config['DEFAULT']['BulletsPerSecond'])
+        self.generator = {
+            "ShapeChance": float(self.config["GENERATOR"]["ShapeChance"]),
+            "ShapeDifferential": float(self.config["GENERATOR"]["ShapeDifferential"]),
+            "ShapeCooldown": int(self.config["GENERATOR"]["ShapeCooldown"]),
+            "ShapeModulus": int(self.config["GENERATOR"]["ShapeModulus"]),
+            "DifferentialStep": int(self.config["GENERATOR"]["DifferentialStep"]),
+            "DifferentialChance": float(self.config["GENERATOR"]["DifferentialChance"]),
+            "DifferentialMax": int(self.config["GENERATOR"]["DifferentialMax"]),
+            "TierTwo": float(self.config["GENERATOR"]["TierTwo"]),
+            "TierThree": float(self.config["GENERATOR"]["TierThree"]),
+            "TierFour": float(self.config["GENERATOR"]["TierFour"]),
+            "TierFive": float(self.config["GENERATOR"]["TierFive"]),
+            "TierOneMult": float(self.config["GENERATOR"]["TierOneMult"]),
+            "TierTwoMult": float(self.config["GENERATOR"]["TierTwoMult"]),
+            "TierThreeMult": float(self.config["GENERATOR"]["TierThreeMult"]),
+            "TierFourMult": float(self.config["GENERATOR"]["TierFourMult"]),
+            "TierFiveMult": float(self.config["GENERATOR"]["TierFiveMult"]),
+            "BorderSize": int(self.config["GENERATOR"]["BorderSize"]),
+            "Velocity": int(self.config["GENERATOR"]["Velocity"])
+        }
 
     """Gets the image for Game Object"""
     def getGameImage(self, gameObject):
         return self.imageCache[gameObject]
+        
+    def getGeneratorProperty(self, prop):
+        return self.generator[prop]
 
-    def getImageCache(self, gameObject):
+    def _getImageCache(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
         image = pygame.image.load(os.path.join('assets', imageFile)).convert_alpha()
         return image
 
-    def getBackgroundCache(self):
+    def _getBackgroundCache(self):
         imageFile = self.config['IMAGES']["Background"]
         backgroundImage = pygame.image.load(os.path.join("assets", "background.jpg")).convert()
         background = pygame.Surface((600, 900))
         background.blit(backgroundImage, pygame.Rect(0, 0, 600, 900))
         return background
-
-def main():
-    pygame.init()
-    cfg = Configuration(os.path.join('..', 'settings.ini'))
-    while (True):
-        for event in pygame.event.get():
-            if not hasattr(event, 'key'): continue
-            elif event.key == K_ESCAPE: sys.exit(0)
-
-        screen = pygame.display.set_mode((1024, 768))
-        #screen.blit(cfg.getGameImage('Cannon'), (100, 100))
-        #screen.blit(cfg.getGameImage('CircleBullet'), (150, 150))
-        #screen.blit(cfg.getGameImage('CircleTarget'), (200, 200))
-        pygame.display.flip()
         
-if __name__ == "__main__":
-    main()
+    

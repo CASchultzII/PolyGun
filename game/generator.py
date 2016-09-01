@@ -12,8 +12,8 @@ class TargetGenerator():
     def __init__(self, pool):
         self.pool = pool
         
-        self.shapeChance = .05
-        self.shapeCooldown = 500 # ms
+        self.shapeChance = Constants.config.getGeneratorProperty("ShapeChance")
+        self.shapeCooldown = Constants.config.getGeneratorProperty("ShapeCooldown")
         self.differential = 0
         self.shapesDropped = 0
 
@@ -29,29 +29,30 @@ class TargetGenerator():
                 xpos = random.randrange(16, 600-112)
                 ypos = 0
             
-                velocity = 250
+                velocity = Constants.config.getGeneratorProperty("Velocity")
             
                 self.pool.generate(shape, TypeEnum.TARGET, [xpos, ypos], velocity, 0)
-                self.shapeCooldown = 500 - self.differential
+                self.shapeCooldown = Constants.config.getGeneratorProperty("ShapeCooldown") - self.differential
                 self.shapesDropped += 1
 
                 # And increase odds of another shape!
-                if self.shapesDropped % 3 != 0:
+                if self.shapesDropped % Constants.config.getGeneratorProperty("ShapeModulus") != 0:
                     return
                 
-                if self.shapeChance < .2:
-                    self.shapeChance *= 1.07
-                elif self.shapeChance < .4:
-                    self.shapeChance *= 1.05
-                elif self.shapeChance < .6:
-                    self.shapeChance *= 1.03
-                elif self.shapeChance < .8:
-                    self.shapeChance *= 1.02
+                if self.shapeChance < Constants.config.getGeneratorProperty("TierTwo"):
+                    self.shapeChance *= Constants.config.getGeneratorProperty("TierOneMult")
+                elif self.shapeChance < Constants.config.getGeneratorProperty("TierThree"):
+                    self.shapeChance *= Constants.config.getGeneratorProperty("TierTwoMult")
+                elif self.shapeChance < Constants.config.getGeneratorProperty("TierFour"):
+                    self.shapeChance *= Constants.config.getGeneratorProperty("TierThreeMult")
+                elif self.shapeChance < Constants.config.getGeneratorProperty("TierFive"):
+                    self.shapeChance *= Constants.config.getGeneratorProperty("TierFourMult")
                 elif self.shapeChance < 1:
-                    self.shapeChance *= 1.01
+                    self.shapeChance *= Constants.config.getGeneratorProperty("TierFiveMult")
                 else:
                     self.shapeChance = 1
 
-                if self.shapeChance >= .5 and self.differential < 250:
-                    self.differential += 25
-                    self.shapeChance = .1
+                if self.shapeChance >= Constants.config.getGeneratorProperty("DifferentialChance") and \
+                        self.differential < Constants.config.getGeneratorProperty("DifferentialMax"):
+                    self.differential += Constants.config.getGeneratorProperty("DifferentialStep")
+                    self.shapeChance = Constants.config.getGeneratorProperty("ShapeDifferential")
