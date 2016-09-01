@@ -107,14 +107,21 @@ class ProjectilePool:
         
     """ Updates all projectiles in the pool. """
     def update(self):
+
+        resources = {ShapeEnum.CIRCLE: 0, ShapeEnum.SQUARE: 0, ShapeEnum.TRIANGLE: 0}
+
         for x in self.bullets:
-            if x[0]: x[1].update()
-            if x[1].position[1] < 0: x[0] = False
+            if x[0]:
+                x[1].update()
+                if x[1].position[1] < 0: x[0] = False
             
         for x in self.targets:
-            if x[0]: x[1].update()
-            if x[1].position[1] > 900: x[0] = False
-            
+            if x[0]:
+                x[1].update()
+                if x[1].position[1] > 900:
+                    x[0] = False
+                    resources[x[1].shape] -= 1 # Decrease resource by one
+    
         for bullet in self.bullets:
             for target in self.targets:
                 if not bullet[0] or not target[0]: continue
@@ -124,8 +131,10 @@ class ProjectilePool:
                 if bulletRect.colliderect(targetRect):
                     if (bullet[1].shape == target[1].shape):
                         target[0] = False
-                        # increase player score
+                        resources[bullet[1].shape] += 2
                     bullet[0] = False
+
+        return resources # return resources for addition to player by game.
 
     """ Draws all projectiles in the pool. """
     def draw(self):

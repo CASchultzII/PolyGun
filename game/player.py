@@ -32,10 +32,17 @@ class PlayerInfo:
             
             self.pool.generate(shapeEnum, TypeEnum.BULLET, position, -500, 0) # Velocity of bullet should be obtained from config
             self.timeCooldown = 0 # TODO obtain time cooldown from config
+            self.resources[shapeEnum] -= 1
         
     """ Checks if the player collides with the provided rect. """
     def collides(self, rect):
         return sprite.get_rect().colliderect(rect)
+
+    """ Increases or decreases the resources accordingly """
+    def adjustResources(self, resources):
+        self.resources[ShapeEnum.CIRCLE] += resources[ShapeEnum.CIRCLE]
+        self.resources[ShapeEnum.SQUARE] += resources[ShapeEnum.SQUARE]
+        self.resources[ShapeEnum.TRIANGLE] += resources[ShapeEnum.TRIANGLE]
 
     """ Updates the player. """
     def update(self):

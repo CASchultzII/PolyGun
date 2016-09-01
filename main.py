@@ -28,7 +28,10 @@ class Game:
     """ Update game. """
     def update(self):
         self.player.update()
-        self.pool.update()
+
+        resources = self.pool.update()
+        self.player.adjustResources(resources)
+
         self.tgen.update()
 
     """ Draw game. """
