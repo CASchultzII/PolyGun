@@ -108,6 +108,16 @@ class PlayerInfo:
         Constants.screen.blit(cPoints, cPos)
         Constants.screen.blit(sPoints, sPos)
         Constants.screen.blit(tPoints, tPos)
+
+        # Draw time
+        minutes = int(self.timeScore / 1000 / 60)
+        seconds = int(self.timeScore / 1000 - minutes * 60)
+        timeString = str(minutes) + ":" + str(seconds)
+
+        font = Font(os.path.join("assets", "astron boy.ttf"), 70)
+        time = font.render(timeString, True, (255,255,255))
+        timeRect = time.get_bounding_rect()
+        Constants.screen.blit(time, [600 - timeRect.w - 10, 10])
         
         if self.gameOver:
             font = Font(os.path.join("assets", "astron boy.ttf"), 100)
