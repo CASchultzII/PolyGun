@@ -27,12 +27,12 @@ class Game:
 
     """ Update game. """
     def update(self):
-        self.player.update()
-
-        resources = self.pool.update()
-        self.player.adjustResources(resources)
-
         self.tgen.update()
+
+        resources, targets = self.pool.update()
+
+        self.player.adjustResources(resources, targets)
+        self.player.update()
 
     """ Draw game. """
     def draw(self):

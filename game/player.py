@@ -36,13 +36,18 @@ class PlayerInfo:
         
     """ Checks if the player collides with the provided rect. """
     def collides(self, rect):
-        return sprite.get_rect().colliderect(rect)
+        return self.sprite.get_rect().move(self.position[0], self.position[1]).colliderect(rect)
 
     """ Increases or decreases the resources accordingly """
-    def adjustResources(self, resources):
+    def adjustResources(self, resources, targetRects):
         self.resources[ShapeEnum.CIRCLE] += resources[ShapeEnum.CIRCLE]
         self.resources[ShapeEnum.SQUARE] += resources[ShapeEnum.SQUARE]
         self.resources[ShapeEnum.TRIANGLE] += resources[ShapeEnum.TRIANGLE]
+
+        for target in targetRects:
+            rect = target.sprite.get_rect().move(target.position[0], target.position[1])
+            if self.collides(rect):
+                target.collidesPlayer = True
 
     """ Updates the player. """
     def update(self):

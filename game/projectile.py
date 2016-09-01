@@ -38,6 +38,7 @@ class Projectile:
         self.acceleration = acceleration # Pixels per second per second
         self.shape = shapeEnum
         self.sprite = None
+        self.collidesPlayer = False
     
     """Update this projectile."""
     def update(self):
@@ -110,17 +111,20 @@ class ProjectilePool:
 
         resources = {ShapeEnum.CIRCLE: 0, ShapeEnum.SQUARE: 0, ShapeEnum.TRIANGLE: 0}
 
-        for x in self.bullets:
-            if x[0]:
-                x[1].update()
-                if x[1].position[1] < 0: x[0] = False
+        for bullet in self.bullets:
+            if bullet[0]:
+                bullet[1].update()
+                if bullet[1].position[1] < 0: bullet[0] = False
             
-        for x in self.targets:
-            if x[0]:
-                x[1].update()
-                if x[1].position[1] > 900:
-                    x[0] = False
-                    resources[x[1].shape] -= 1 # Decrease resource by one
+        liveTargets = []
+        for target in self.targets:
+            if target[0]:
+                target[1].update()
+                liveTargets.append(target[1])
+                if target[1].position[1] > 900 or target[1].collidesPlayer:
+                    target[1].position = [0, 0]
+                    target[0] = target[1].collidesPlayer = False
+                    resources[target[1].shape] -= 1 # Decrease resource by one
     
         for bullet in self.bullets:
             for target in self.targets:
@@ -134,7 +138,7 @@ class ProjectilePool:
                         resources[bullet[1].shape] += 2
                     bullet[0] = False
 
-        return resources # return resources for addition to player by game.
+        return resources, liveTargets # return resources for addition to player by game.
 
     """ Draws all projectiles in the pool. """
     def draw(self):
