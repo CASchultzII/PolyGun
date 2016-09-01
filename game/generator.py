@@ -12,8 +12,10 @@ class TargetGenerator():
     def __init__(self, pool):
         self.pool = pool
         
-        self.shapeChance = .01
+        self.shapeChance = .05
         self.shapeCooldown = 500 # ms
+        self.differential = 0
+        self.shapesDropped = 0
 
     """ Generator may create new shapes on a call to update. """
     def update(self):
@@ -30,4 +32,26 @@ class TargetGenerator():
                 velocity = 250
             
                 self.pool.generate(shape, TypeEnum.TARGET, [xpos, ypos], velocity, 0)
-                self.shapeCooldown = 500
+                self.shapeCooldown = 500 - self.differential
+                self.shapesDropped += 1
+
+                # And increase odds of another shape!
+                if self.shapesDropped % 3 != 0:
+                    return
+                
+                if self.shapeChance < .2:
+                    self.shapeChance *= 1.07
+                elif self.shapeChance < .4:
+                    self.shapeChance *= 1.05
+                elif self.shapeChance < .6:
+                    self.shapeChance *= 1.03
+                elif self.shapeChance < .8:
+                    self.shapeChance *= 1.02
+                elif self.shapeChance < 1:
+                    self.shapeChance *= 1.01
+                else:
+                    self.shapeChance = 1
+
+                if self.shapeChance >= .5 and self.differential < 250:
+                    self.differential += 25
+                    self.shapeChance = .1
