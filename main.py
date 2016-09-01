@@ -60,6 +60,9 @@ while (True):
         if event.key == K_a and down: game.player.fire(projectile.ShapeEnum.CIRCLE)
         elif event.key == K_s and down: game.player.fire(projectile.ShapeEnum.SQUARE)
         elif event.key == K_d and down: game.player.fire(projectile.ShapeEnum.TRIANGLE)
+
+        if event.key == K_RETURN and down and game.player.gameOver:
+            game.init()
         
         if event.key == K_ESCAPE: sys.exit(0)
 
