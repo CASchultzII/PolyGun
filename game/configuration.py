@@ -23,23 +23,19 @@ class Configuration:
             "Background": self._getBackgroundCache()
         }
         self.generator = {
-            "ShapeChance": float(self.config["GENERATOR"]["ShapeChance"]),
-            "ShapeDifferential": float(self.config["GENERATOR"]["ShapeDifferential"]),
-            "ShapeCooldown": int(self.config["GENERATOR"]["ShapeCooldown"]),
-            "ShapeModulus": int(self.config["GENERATOR"]["ShapeModulus"]),
-            "DifferentialStep": int(self.config["GENERATOR"]["DifferentialStep"]),
-            "DifferentialChance": float(self.config["GENERATOR"]["DifferentialChance"]),
-            "DifferentialMax": int(self.config["GENERATOR"]["DifferentialMax"]),
-            "TierTwo": float(self.config["GENERATOR"]["TierTwo"]),
-            "TierThree": float(self.config["GENERATOR"]["TierThree"]),
-            "TierFour": float(self.config["GENERATOR"]["TierFour"]),
-            "TierFive": float(self.config["GENERATOR"]["TierFive"]),
-            "TierOneMult": float(self.config["GENERATOR"]["TierOneMult"]),
-            "TierTwoMult": float(self.config["GENERATOR"]["TierTwoMult"]),
-            "TierThreeMult": float(self.config["GENERATOR"]["TierThreeMult"]),
-            "TierFourMult": float(self.config["GENERATOR"]["TierFourMult"]),
-            "TierFiveMult": float(self.config["GENERATOR"]["TierFiveMult"]),
-            "BorderSize": int(self.config["GENERATOR"]["BorderSize"]),
+            "TierOne": float(self.config["GENERATOR"]["TierOne"],
+            "TierTwo": float(self.config["GENERATOR"]["TierTwo"],
+            "TierThree": float(self.config["GENERATOR"]["TierThree"],
+
+            "TierOneMult": float(self.config["GENERATOR"]["TierOneMult"],
+            "TierTwoMult": float(self.config["GENERATOR"]["TierTwoMult"],
+            "TierThreeMult": float(self.config["GENERATOR"]["TierThreeMult"],
+
+            "EasyPatterns": os.path.join("assets", self.config["GENERATOR"]["EasyPatterns"]),
+            "MediPatterns": os.path.join("assets", self.config["GENERATOR"]["MediPatterns"]),
+            "HardPatterns": os.path.join("assets", self.config["GENERATOR"]["HardPatterns"],
+
+            "PatternModulus": int(self.config["GENERATOR"]["PatternModulus"]),
             "Velocity": int(self.config["GENERATOR"]["Velocity"])
         }
 
