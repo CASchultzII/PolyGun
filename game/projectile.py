@@ -89,7 +89,7 @@ class ProjectilePool:
 
         if shapeEnum == ShapeEnum.RANDOM:
             shapeEnum = random.choice([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE])
-        
+      
         proj.shape = shapeEnum
         proj.position = position
         proj.velocity = velocity
@@ -131,7 +131,8 @@ class ProjectilePool:
                 if target[1].position[1] > 900 or target[1].collidesPlayer:
                     target[1].position = [0, 0]
                     target[0] = target[1].collidesPlayer = False
-                    resources[target[1].shape] -= 1 # Decrease resource by one
+                    val = 3 if target[1].collidesPlayer else 1
+                    resources[target[1].shape] -= val
     
         for bullet in self.bullets:
             for target in self.targets:

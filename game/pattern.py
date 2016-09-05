@@ -25,9 +25,25 @@ class Pattern:
         self.loops = loops
         self.nodes = nodes
         self.patternStr = patternStr
+        self.shapes = None
+
+    def bind(self):
+        pureShapes = random.sample([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE], 3)
+        self.shapes = [ShapeEnum.RANDOM]
+        self.shapes.extend(pureShapes)
+        self._bind()
+
+    def _bind(self):
+        for row in self.nodes:
+            for pattern in row:
+                pattern.shape = self.shapes[int(pattern.shape)]
 
     def clone(self):
-        return compilePattern(self.patternStr)
+        clone = compilePattern(self.patternStr)
+        if self.shapes != None:
+            clone.shapes = self.shapes
+            clone._bind()
+        return clone
 
 """
 Constructs a Pattern from a String.
@@ -44,24 +60,8 @@ def compilePattern(patternStr):
         row = []
         for patternStr in patternStrs:
             shapeNum, xCoord = patternStr.split(",")
-            shape = _getShape(int(shapeNum))
-            row.append(PatternNode(float(xCoord), shape))
+            row.append(PatternNode(float(xCoord), shapeNum))
         nodes.append(row)
     
     loops = random.randint(int(loopMin), int(loopMax))
     return Pattern(int(delay), loops, nodes, pythonStringsAreWeird)
-
-"""
-Handles ShapeEnum assignment
-"""
-shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE]
-def _getShape(shapeNum):
-    if (shapeNum >= 0 and shapeNum <= 3):
-        
-        if (shapeNum == 0):
-            return ShapeEnum.RANDOM
-        
-        random.shuffle(shapes)
-        return shapes[shapeNum - 1]
-
-    return ShapeEnum.SQUARE # failsafe

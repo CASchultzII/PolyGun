@@ -73,15 +73,21 @@ class TargetGenerator():
     """
     def _setNewPattern(self):
         patternArray = None
+        tag = None
         if self.tierVal < Constants.config.getGeneratorProperty("TierTwo"):
             patternArray = self.easy
+            tag = "(EASY) "
         elif self.tierVal < Constants.config.getGeneratorProperty("TierThree"):
             patternArray = self.medi
+            tag = "(MEDI) "
         else:
             patternArray = self.hard
+            tag = "(HARD) "
 
         self.pattern = random.choice(patternArray).clone()
+        self.pattern.bind()
         self.patternD = self.pattern.clone()
+        print(tag + "PATTERN: " + self.pattern.patternStr)
 
     """
     Fires the current pattern.
@@ -97,6 +103,7 @@ class TargetGenerator():
             if self.pattern.loops > 0:
                 self.pattern.loops -= 1
                 self.patternD = self.pattern.clone()
+                print("   Looping...")
             else:
                 self.pattern = None
                 self.patternsDropped += 1
