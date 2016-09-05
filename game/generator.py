@@ -52,11 +52,13 @@ class TargetGenerator():
         
         if self.patternCooldown == 0:
 
+            inc = False
             if self.pattern == None:
                 self._setNewPattern()
+                inc = True
             self._firePattern()
 
-            if self.patternsDropped % Constants.config.getGeneratorProperty("PatternModulus") == 0:
+            if self.patternsDropped % Constants.config.getGeneratorProperty("PatternModulus") == 0 and inc:
                 # Ramp up difficulty.
 
                 if self.tierVal < Constants.config.getGeneratorProperty("TierTwo"):
