@@ -2,6 +2,7 @@
 
 from configparser import ConfigParser
 from pygame.locals import *
+from pygame import Rect
 import pygame, sys, os
 
 """
@@ -38,6 +39,15 @@ class Configuration:
             "PatternModulus": int(self.config["GENERATOR"]["PatternModulus"]),
             "Velocity": int(self.config["GENERATOR"]["Velocity"])
         }
+        self.hitboxes = {
+            "TargetCircle": self._getHitBox(self.config["HITBOXES"]["TargetCircle"]),
+            "TargetSquare": self._getHitBox(self.config["HITBOXES"]["TargetSquare"]),
+            "TargetTriangle": self._getHitBox(self.config["HITBOXES"]["TargetTriangle"]),
+            "BulletCircle": self._getHitBox(self.config["HITBOXES"]["BulletCircle"]),
+            "BulletSquare": self._getHitBox(self.config["HITBOXES"]["BulletSquare"]),
+            "BulletTriangle": self._getHitBox(self.config["HITBOXES"]["BulletTriangle"]),
+            "Player": self._getHitBox(self.config["HITBOXES"]["Player"])
+        }
 
     """Gets the image for Game Object"""
     def getGameImage(self, gameObject):
@@ -45,6 +55,9 @@ class Configuration:
         
     def getGeneratorProperty(self, prop):
         return self.generator[prop]
+
+    def getHitBox(self, sprite):
+        return self.hitboxes[sprite]
 
     def _getImageCache(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
@@ -58,4 +71,6 @@ class Configuration:
         background.blit(backgroundImage, pygame.Rect(0, 0, 600, 900))
         return background
         
-    
+    def _getHitBox(self, rectString):
+        x, y, width, height = rectString.split(",")
+        return Rect(int(x), int(y), int(width), int(height))

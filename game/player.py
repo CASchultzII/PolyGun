@@ -19,7 +19,8 @@ class PlayerInfo:
         self.timeCooldown = 0
         self.resources = {ShapeEnum.CIRCLE: 10, ShapeEnum.SQUARE: 10, ShapeEnum.TRIANGLE: 10}
         self.position = [236, 820] # TODO create a world coordinate transform
-        self.sprite = pygame.image.load(os.path.join("assets", "cannon.png")).convert_alpha()
+        self.sprite = Constants.config.getGameImage("Cannon")
+        self.hitbox = Constants.config.getHitBox("Player")
         self.pool = pool # BAD COUPLING
         
         self.moveLeft = False
@@ -45,7 +46,7 @@ class PlayerInfo:
         
     """ Checks if the player collides with the provided rect. """
     def collides(self, rect):
-        return self.sprite.get_rect().move(self.position[0], self.position[1]).colliderect(rect)
+        return self.hitbox.copy().move(self.position[0], self.position[1]).colliderect(rect)
 
     """ Increases or decreases the resources accordingly """
     def adjustResources(self, resources, targetRects):
@@ -56,7 +57,7 @@ class PlayerInfo:
         self.resources[ShapeEnum.TRIANGLE] += resources[ShapeEnum.TRIANGLE]
 
         for target in targetRects:
-            rect = target.sprite.get_rect().move(target.position[0], target.position[1])
+            rect = target.hitbox.copy().move(target.position[0], target.position[1])
             if self.collides(rect):
                 target.collidesPlayer = True
                 self.music_botched.play()

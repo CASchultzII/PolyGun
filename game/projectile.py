@@ -40,6 +40,7 @@ class Projectile:
         self.acceleration = acceleration # Pixels per second per second
         self.shape = shapeEnum
         self.sprite = None
+        self.hitbox = None
         self.collidesPlayer = False
     
     """Update this projectile."""
@@ -96,22 +97,30 @@ class ProjectilePool:
         proj.acceleration = acceleration        
 
         sprite = None
+        hitbox = None
         # TODO replace sprite assignments with Constants / Configuration access
         if typeEnum == TypeEnum.BULLET:
             if shapeEnum == ShapeEnum.CIRCLE:
                 sprite = Constants.config.getGameImage('CircleBullet')
+                hitbox = Constants.config.getHitBox("BulletCircle")
             elif shapeEnum == ShapeEnum.SQUARE:
                 sprite = Constants.config.getGameImage('SquareBullet')
+                hitbox = Constants.config.getHitBox("BulletSquare")
             else:
                 sprite = Constants.config.getGameImage('TriangleBullet')
+                hitbox = Constants.config.getHitBox("BulletTriangle")
         else:
             if shapeEnum == ShapeEnum.CIRCLE:
                 sprite = Constants.config.getGameImage('CircleTarget')
+                hitbox = Constants.config.getHitBox("TargetCircle")
             elif shapeEnum == ShapeEnum.SQUARE:
                 sprite = Constants.config.getGameImage('SquareTarget')
+                hitbox = Constants.config.getHitBox("TargetSquare")
             else:
                 sprite = Constants.config.getGameImage('TriangleTarget')
+                hitbox = Constants.config.getHitBox("TargetTriangle")
         proj.sprite = sprite
+        proj.hitbox = hitbox
         
     """ Updates all projectiles in the pool. """
     def update(self):
@@ -138,8 +147,8 @@ class ProjectilePool:
             for target in self.targets:
                 if not bullet[0] or not target[0]: continue
                 
-                bulletRect = bullet[1].sprite.get_rect().move(bullet[1].position[0], bullet[1].position[1])
-                targetRect = target[1].sprite.get_rect().move(target[1].position[0], target[1].position[1])
+                bulletRect = bullet[1].hitbox.copy().move(bullet[1].position[0], bullet[1].position[1])
+                targetRect = target[1].hitbox.copy().move(target[1].position[0], target[1].position[1])
                 if bulletRect.colliderect(targetRect):
                     if (bullet[1].shape == target[1].shape):
                         target[0] = False
