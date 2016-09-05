@@ -139,8 +139,8 @@ class ProjectilePool:
                 liveTargets.append(target[1])
                 if target[1].position[1] > 900 or target[1].collidesPlayer:
                     target[1].position = [0, 0]
-                    target[0] = target[1].collidesPlayer = False
                     val = 3 if target[1].collidesPlayer else 1
+                    target[0] = target[1].collidesPlayer = False
                     resources[target[1].shape] -= val
     
         for bullet in self.bullets:

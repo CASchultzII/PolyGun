@@ -4,6 +4,7 @@ import sys, os
 import pygame
 from pygame.locals import *
 pygame.init()
+pygame.joystick.init() # JOYSTICKS?!?
 
 from game import configuration, generator, player, projectile
 from game.tools import Constants
@@ -20,6 +21,11 @@ class Game:
         pygame.display.set_caption("PolyGun")
         self.music = pygame.mixer.Sound(os.path.join("assets", "DivideByZero-POL.ogg"))
         self.music.play(-1)
+
+        if pygame.joystick.get_count() > 0:
+            self.joystick = pygame.joystick.Joystick(0)
+            if (self.joystick != None):
+                self.joystick.init()
 
     """ PolyGun setup. """
     def init(self):
@@ -53,21 +59,42 @@ while (True):
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit(0)
         
-        if not hasattr(event, 'key'): continue
+        if hasattr(event, 'key'):
+            down = event.type == KEYDOWN
+            if event.key == K_LEFT: game.player.moveLeft = down
+            elif event.key == K_RIGHT: game.player.moveRight = down
         
-        down = event.type == KEYDOWN
-        if event.key == K_LEFT: game.player.moveLeft = down
-        elif event.key == K_RIGHT: game.player.moveRight = down
-        
-        if event.key == K_a and down: game.player.fire(projectile.ShapeEnum.CIRCLE)
-        elif event.key == K_s and down: game.player.fire(projectile.ShapeEnum.SQUARE)
-        elif event.key == K_d and down: game.player.fire(projectile.ShapeEnum.TRIANGLE)
+            if event.key == K_a and down: game.player.fire(projectile.ShapeEnum.CIRCLE)
+            elif event.key == K_s and down: game.player.fire(projectile.ShapeEnum.SQUARE)
+            elif event.key == K_d and down: game.player.fire(projectile.ShapeEnum.TRIANGLE)
 
-        if event.key == K_RETURN and down and game.player.gameOver:
-            game.init()
+            if event.key == K_RETURN and down and game.player.gameOver:
+                game.init()
         
-        if event.key == K_ESCAPE: sys.exit(0)
+            if event.key == K_ESCAPE: sys.exit(0)
 
+        if event.type == pygame.JOYBUTTONDOWN:
+            if event.button == 0:
+                game.player.fire(projectile.ShapeEnum.CIRCLE)
+            elif event.button == 1:
+                game.player.fire(projectile.ShapeEnum.SQUARE)
+            elif event.button == 4:
+                game.player.fire(projectile.ShapeEnum.TRIANGLE)
+            elif event.button == 11 and game.player.gameOver:
+                game.init()
+
+        if event.type == pygame.JOYAXISMOTION:
+            if event.axis == 0 or event.axis == 6:
+                if event.value < 0:
+                    game.player.moveLeft = True
+                    game.player.moveRight = False
+                elif event.value > 0:
+                    game.player.moveLeft = False
+                    game.player.moveRight = True
+                else: # event.value == 0
+                    game.player.moveLeft = False
+                    game.player.moveRight = False
+            
     game.update()
     game.draw()
     pygame.display.flip()

@@ -40,7 +40,7 @@ class PlayerInfo:
             position[1] -= 70
             
             self.pool.generate(shapeEnum, TypeEnum.BULLET, position, -500, 0) # Velocity of bullet should be obtained from config
-            self.timeCooldown = 200 # TODO obtain time cooldown from config
+            self.timeCooldown = 100 # TODO obtain time cooldown from config
             self.resources[shapeEnum] -= 1
             self.music_lazer.play()
         
