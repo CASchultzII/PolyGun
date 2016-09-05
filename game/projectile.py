@@ -86,14 +86,14 @@ class ProjectilePool:
     def generate(self, shapeEnum, typeEnum, position, velocity, acceleration):
         proj = self.findEmptyProjectile(typeEnum)
         if proj == None: return # Fail silently, all shapes in motion.
+
+        if shapeEnum == ShapeEnum.RANDOM:
+            shapeEnum = random.choice([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE])
         
         proj.shape = shapeEnum
         proj.position = position
         proj.velocity = velocity
-        proj.acceleration = acceleration
-        
-        if shapeEnum = ShapeEnum.RANDOM:
-            shapeEnum = random.choice([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE])
+        proj.acceleration = acceleration        
 
         sprite = None
         # TODO replace sprite assignments with Constants / Configuration access

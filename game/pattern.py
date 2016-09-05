@@ -27,12 +27,13 @@ class Pattern:
         self.patternStr = patternStr
 
     def clone(self):
-        return compilePattern(patternStr)
+        return compilePattern(self.patternStr)
 
 """
 Constructs a Pattern from a String.
 """
 def compilePattern(patternStr):
+    pythonStringsAreWeird = patternStr
     delay, loopRange, nodeStr = patternStr.split("|")
     loopMin, loopMax = loopRange.split(",")
     rows = nodeStr.split(";")
@@ -43,12 +44,12 @@ def compilePattern(patternStr):
         row = []
         for patternStr in patternStrs:
             shapeNum, xCoord = patternStr.split(",")
-            shape = _getShape(shapeNum)
-            row.append(PatternNode(x, shape))
+            shape = _getShape(int(shapeNum))
+            row.append(PatternNode(float(xCoord), shape))
         nodes.append(row)
     
     loops = random.randint(int(loopMin), int(loopMax))
-    return Pattern(int(delay), loops, nodes, patternStr)
+    return Pattern(int(delay), loops, nodes, pythonStringsAreWeird)
 
 """
 Handles ShapeEnum assignment
@@ -61,6 +62,6 @@ def _getShape(shapeNum):
             return ShapeEnum.RANDOM
         
         random.shuffle(shapes)
-        return shapes[shapeNum]
+        return shapes[shapeNum - 1]
 
     return ShapeEnum.SQUARE # failsafe

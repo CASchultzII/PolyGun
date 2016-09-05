@@ -21,11 +21,19 @@ class TargetGenerator():
         self.patternD = None
         self._loadPatterns()
 
+    """ Loads a pattern file into an array of pattern strings. """
+    def _loadPatternFile(fileString):
+        patternStrs = []
+        with open(fileString, 'r') as f:
+            for line in f:
+                patternStrs.append(line.rstrip())
+        return patternStrs
+
     """ Loads patterns into the generator. """
     def _loadPatterns(self):
-        easy = _loadPatternFile(Constants.config.getGeneratorProperty("EasyPatterns"))
-        medi = _loadPatternFile(Constants.config.getGeneratorProperty("MediPatterns"))
-        hard = _loadPatternFile(Constants.config.getGeneratorProperty("HardPatterns"))
+        easy = TargetGenerator._loadPatternFile(Constants.config.getGeneratorProperty("EasyPatterns"))
+        medi = TargetGenerator._loadPatternFile(Constants.config.getGeneratorProperty("MediPatterns"))
+        hard = TargetGenerator._loadPatternFile(Constants.config.getGeneratorProperty("HardPatterns"))
 
         self.easy = []
         self.medi = []
@@ -35,14 +43,7 @@ class TargetGenerator():
         for patternStr in medi:
             self.medi.append(compilePattern(patternStr))
         for patternStr in hard:
-            self.medi.append(compilePattern(patternStr))
-
-    """ Loads a pattern file into an array of pattern strings. """
-    def _loadPatternFile(fileString):
-        patternStrs = []
-        with open(fileString, 'r') as f:
-            for line in f:
-                patternStrs.append(line.rstrip())
+            self.hard.append(compilePattern(patternStr))
 
     """ Generator may create new shapes on a call to update. """
     def update(self):
@@ -55,7 +56,7 @@ class TargetGenerator():
                 self._setNewPattern()
             self._firePattern()
 
-            if self.patternsDropped % Cosntants.config.getGeneratorProperty("PatternModulus") == 0:
+            if self.patternsDropped % Constants.config.getGeneratorProperty("PatternModulus") == 0:
                 # Ramp up difficulty.
 
                 if self.tierVal < Constants.config.getGeneratorProperty("TierTwo"):
