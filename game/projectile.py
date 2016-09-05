@@ -3,6 +3,7 @@
 from enum import Enum
 import pygame # temporary
 import os
+import random
 
 from game.tools import Constants
 
@@ -13,6 +14,7 @@ Enum for Types of Shapes:
     - Triangle
 """
 class ShapeEnum(Enum):
+    RANDOM = 0,
     CIRCLE = 1,
     SQUARE = 2,
     TRIANGLE = 3
@@ -90,6 +92,9 @@ class ProjectilePool:
         proj.velocity = velocity
         proj.acceleration = acceleration
         
+        if shapeEnum = ShapeEnum.RANDOM:
+            shapeEnum = random.choice([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE])
+
         sprite = None
         # TODO replace sprite assignments with Constants / Configuration access
         if typeEnum == TypeEnum.BULLET:

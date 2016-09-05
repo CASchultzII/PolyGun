@@ -20,10 +20,14 @@ A collection of PatternNodes.  Used to fire a pattern.
 """
 class Pattern:
 
-    def __init__(self, delay, loops, nodes):
+    def __init__(self, delay, loops, nodes, patternStr):
         self.delay = delay
         self.loops = loops
         self.nodes = nodes
+        self.patternStr = patternStr
+
+    def clone(self):
+        return compilePattern(patternStr)
 
 """
 Constructs a Pattern from a String.
@@ -44,21 +48,19 @@ def compilePattern(patternStr):
         nodes.append(row)
     
     loops = random.randint(int(loopMin), int(loopMax))
-    return Pattern(int(delay), loops, nodes)
+    return Pattern(int(delay), loops, nodes, patternStr)
 
 """
 Handles ShapeEnum assignment
 """
+shapes = [ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE]
 def _getShape(shapeNum):
     if (shapeNum >= 0 and shapeNum <= 3):
+        
         if (shapeNum == 0):
-            return random.choice([ShapeEnum.CIRCLE, ShapeEnum.SQUARE, ShapeEnum.TRIANGLE])
-
-        if (shapeNum == 1):
-            return ShapeEnum.CIRCLE
-        elif (shapeNum == 2):
-            return ShapeEnum.SQUARE
-        else: # shapeNum == 3
-            return ShapeEnum.TRIANGLE
+            return ShapeEnum.RANDOM
+        
+        random.shuffle(shapes)
+        return shapes[shapeNum]
 
     return ShapeEnum.SQUARE # failsafe
