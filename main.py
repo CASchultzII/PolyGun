@@ -19,7 +19,7 @@ class Game:
         Constants()
         Constants.config = configuration.Configuration('settings.ini')       
         pygame.display.set_caption("PolyGun")
-        self.music = pygame.mixer.Sound(os.path.join("assets", "DivideByZero-POL.ogg"))
+        self.music = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "DivideByZero-POL.ogg")))
         self.music.play(-1)
 
         if pygame.joystick.get_count() > 0:

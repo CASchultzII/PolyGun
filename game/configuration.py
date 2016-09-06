@@ -21,7 +21,7 @@ class Configuration:
             "CircleTarget": self._getImageCache("CircleTarget"),
             "SquareTarget": self._getImageCache("SquareTarget"),
             "TriangleTarget": self._getImageCache("TriangleTarget"),
-            "Background": self._getBackgroundCache()
+            "Background": self._getImageCache("Background")
         }
         self.generator = {
             "TierOne": float(self.config["GENERATOR"]["TierOne"]),
@@ -32,9 +32,9 @@ class Configuration:
             "TierTwoMult": float(self.config["GENERATOR"]["TierTwoMult"]),
             "TierThreeMult": float(self.config["GENERATOR"]["TierThreeMult"]),
 
-            "EasyPatterns": os.path.join("assets", self.config["GENERATOR"]["EasyPatterns"]),
-            "MediPatterns": os.path.join("assets", self.config["GENERATOR"]["MediPatterns"]),
-            "HardPatterns": os.path.join("assets", self.config["GENERATOR"]["HardPatterns"]),
+            "EasyPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["EasyPatterns"])),
+            "MediPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["MediPatterns"])),
+            "HardPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["HardPatterns"])),
 
             "PatternModulus": int(self.config["GENERATOR"]["PatternModulus"]),
             "Velocity": int(self.config["GENERATOR"]["Velocity"])
@@ -61,15 +61,9 @@ class Configuration:
 
     def _getImageCache(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
-        image = pygame.image.load(os.path.join('assets', imageFile)).convert_alpha()
+        path = os.path.join("assets", "images")
+        image = pygame.image.load(os.path.join(path, imageFile)).convert_alpha()
         return image
-
-    def _getBackgroundCache(self):
-        imageFile = self.config['IMAGES']["Background"]
-        backgroundImage = pygame.image.load(os.path.join("assets", imageFile)).convert()
-        background = pygame.Surface((600, 900))
-        background.blit(backgroundImage, pygame.Rect(0, 0, 600, 900))
-        return background
         
     def _getHitBox(self, rectString):
         x, y, width, height = rectString.split(",")

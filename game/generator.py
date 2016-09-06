@@ -98,7 +98,7 @@ class TargetGenerator():
         row = self.patternD.nodes.pop(0)
         velocity = Constants.config.getGeneratorProperty("Velocity")
         for node in row:
-            self.pool.generate(node.shape, TypeEnum.TARGET, [node.x * 600 - 112/2, 0], velocity, 0)
+            self.pool.generate(node.shape, TypeEnum.TARGET, [node.x * 600 - 112/2, -10], velocity, 0)
         self.patternCooldown = self.pattern.delay
 
         if len(self.patternD.nodes) == 0:

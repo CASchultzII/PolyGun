@@ -27,8 +27,8 @@ class PlayerInfo:
         self.moveRight = False
 
         self.gameOver = False
-        self.music_botched = pygame.mixer.Sound(os.path.join("assets", "Botched.ogg"))
-        self.music_lazer = pygame.mixer.Sound(os.path.join("assets", "Lazer.ogg"))
+        self.music_botched = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Botched.ogg")))
+        self.music_lazer = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Lazer.ogg")))
 
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
@@ -36,8 +36,21 @@ class PlayerInfo:
         if (self.resources[shapeEnum] < 1): return # Can't fire anymore
         if (self.timeCooldown <= 0):
             position = [self.position[0], self.position[1]]
-            position[0] += 32
-            position[1] -= 70
+            
+            width = 0
+            height = 0
+            if (shapeEnum == ShapeEnum.CIRCLE):
+                width = Constants.config.getGameImage("CircleBullet").get_width()
+                height = Constants.config.getGameImage("CircleBullet").get_height()
+            elif (shapeEnum == ShapeEnum.SQUARE):
+                width = Constants.config.getGameImage("SquareBullet").get_width()
+                height = Constants.config.getGameImage("SquareBullet").get_height()
+            else: # ShapeEnum.TRIANGLE
+                width = Constants.config.getGameImage("TriangleBullet").get_width()
+                height = Constants.config.getGameImage("TriangleBullet").get_height()
+            
+            position[0] += (self.sprite.get_width() - width) / 2
+            position[1] -= height + 10
             
             self.pool.generate(shapeEnum, TypeEnum.BULLET, position, -500, 0) # Velocity of bullet should be obtained from config
             self.timeCooldown = 100 # TODO obtain time cooldown from config
