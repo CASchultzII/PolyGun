@@ -68,7 +68,14 @@ class PlayerInfo:
         self.resources[ShapeEnum.CIRCLE] += resources[ShapeEnum.CIRCLE]
         self.resources[ShapeEnum.SQUARE] += resources[ShapeEnum.SQUARE]
         self.resources[ShapeEnum.TRIANGLE] += resources[ShapeEnum.TRIANGLE]
-
+        
+        def max(shape, val):
+            if self.resources[shape] > val:
+                self.resources[shape] = val;
+        max(ShapeEnum.CIRCLE, 25);
+        max(ShapeEnum.SQUARE, 25);
+        max(ShapeEnum.TRIANGLE, 25);
+                
         for target in targetRects:
             rect = target.hitbox.copy().move(target.position[0], target.position[1])
             if self.collides(rect):
