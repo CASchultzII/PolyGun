@@ -21,7 +21,8 @@ class Configuration:
             "CircleTarget": self._getImageCache("CircleTarget"),
             "SquareTarget": self._getImageCache("SquareTarget"),
             "TriangleTarget": self._getImageCache("TriangleTarget"),
-            "Background": self._getImageCache("Background")
+            "Background": self._getImageCache("Background"),
+            "Banner": self._getImageCache("Banner")
         }
         self.generator = {
             "TierOne": float(self.config["GENERATOR"]["TierOne"]),

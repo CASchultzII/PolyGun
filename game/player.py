@@ -112,10 +112,7 @@ class PlayerInfo:
     """ Draws the player (including resource HUD and time) """
     def draw(self):
         # Draw HUD
-        Constants.screen.fill((0,0,0), pygame.Rect(0, 0, 600, 120))
-        Constants.screen.blit(Constants.config.getGameImage("CircleTarget"), [10, 10])
-        Constants.screen.blit(Constants.config.getGameImage("SquareTarget"), [132, 10])
-        Constants.screen.blit(Constants.config.getGameImage("TriangleTarget"), [254, 10])
+        Constants.screen.blit(Constants.config.getGameImage("Banner"), [0,0])
         
         font = Font(os.path.join("assets", "astron boy.ttf"), 48)
         cString = str(self.resources[ShapeEnum.CIRCLE]) if self.resources[ShapeEnum.CIRCLE] >= 0 else "-"
