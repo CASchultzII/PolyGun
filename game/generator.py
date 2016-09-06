@@ -56,7 +56,12 @@ class TargetGenerator():
             if self.pattern == None:
                 self._setNewPattern()
                 inc = True
-            self._firePattern()
+                
+            if inc:
+                self.patternCooldown = Constants.config.getGeneratorProperty("Delay")
+                print("DELAYING: " + str(self.patternCooldown) + "ms")
+            else:
+                self._firePattern()
 
             if self.patternsDropped % Constants.config.getGeneratorProperty("PatternModulus") == 0 and inc:
                 # Ramp up difficulty.

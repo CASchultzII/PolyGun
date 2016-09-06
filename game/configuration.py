@@ -37,7 +37,8 @@ class Configuration:
             "HardPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["HardPatterns"])),
 
             "PatternModulus": int(self.config["GENERATOR"]["PatternModulus"]),
-            "Velocity": int(self.config["GENERATOR"]["Velocity"])
+            "Velocity": int(self.config["GENERATOR"]["Velocity"]),
+            "Delay": int(self.config["GENERATOR"]["Delay"])
         }
         self.hitboxes = {
             "TargetCircle": self._getHitBox(self.config["HITBOXES"]["TargetCircle"]),
