@@ -56,8 +56,13 @@ class TargetGenerator():
             if self.pattern == None:
                 self._setNewPattern()
                 inc = True
-            self._firePattern()
-
+                
+            if inc:
+                self.patternCooldown = Constants.config.getGeneratorProperty("Delay")
+                print("DELAYING: " + str(self.patternCooldown) + "ms")
+            else:
+                self._firePattern()
+                
             if self.patternsDropped % Constants.config.getGeneratorProperty("PatternModulus") == 0 and inc:
                 # Ramp up difficulty.
 
@@ -69,6 +74,8 @@ class TargetGenerator():
                     self.tierVal *= Constants.config.getGeneratorProperty("TierThreeMult")
                 else:
                     self.tierVal = 1
+                    
+                print ("DIFFICULTY: " + str(self.tierVal))
 
     """
     Gets a new Pattern and sets it as active.
@@ -76,10 +83,10 @@ class TargetGenerator():
     def _setNewPattern(self):
         patternArray = None
         tag = None
-        if self.tierVal < Constants.config.getGeneratorProperty("TierTwo"):
+        if self.tierVal <= Constants.config.getGeneratorProperty("TierTwo"):
             patternArray = self.easy
             tag = "(EASY) "
-        elif self.tierVal < Constants.config.getGeneratorProperty("TierThree"):
+        elif self.tierVal <= Constants.config.getGeneratorProperty("TierThree"):
             patternArray = self.medi
             tag = "(MEDI) "
         else:

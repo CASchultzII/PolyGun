@@ -58,9 +58,10 @@ def compilePattern(patternStr):
     for rowStr in rows:
         patternStrs = rowStr.split(":")
         row = []
-        for patternStr in patternStrs:
-            shapeNum, xCoord = patternStr.split(",")
-            row.append(PatternNode(float(xCoord), shapeNum))
+        if patternStrs[0] != '-':
+            for patternStr in patternStrs:
+                shapeNum, xCoord = patternStr.split(",")
+                row.append(PatternNode(float(xCoord), shapeNum))
         nodes.append(row)
     
     loops = random.randint(int(loopMin), int(loopMax))
