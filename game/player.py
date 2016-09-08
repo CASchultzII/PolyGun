@@ -27,8 +27,8 @@ class PlayerInfo:
         self.moveRight = False
 
         self.gameOver = False
-        self.music_botched = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Botched.ogg")))
-        self.music_lazer = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Lazer.ogg")))
+        self.music_botched = Constants.config.getSound("Collision")
+        self.music_lazer = Constants.config.getSound("Fire")
 
     """ Asks the PlayerInfo to try to fire. """
     def fire(self, shapeEnum):
@@ -114,7 +114,7 @@ class PlayerInfo:
         # Draw HUD
         Constants.screen.blit(Constants.config.getGameImage("Banner"), [0,0])
         
-        font = Font(os.path.join("assets", "astron boy.ttf"), 48)
+        font = Font(Constants.config.getFontPath(), 48)
         cString = str(self.resources[ShapeEnum.CIRCLE]) if self.resources[ShapeEnum.CIRCLE] >= 0 else "-"
         cPoints = font.render(cString, True, (255,255,255))
         cPos = [10 + 112/2 - cPoints.get_width()/2, 109 - 99/2 - cPoints.get_height()/2 + 30]
@@ -136,13 +136,13 @@ class PlayerInfo:
         seconds = int(self.timeScore / 1000 - minutes * 60)
         timeString = str(minutes) + ":" + str(seconds)
 
-        font = Font(os.path.join("assets", "astron boy.ttf"), 70)
+        font = Font(Constants.config.getFontPath(), 70)
         time = font.render(timeString, True, (255,255,255))
         timeRect = time.get_bounding_rect()
         Constants.screen.blit(time, [600 - timeRect.w - 10, 10])
         
         if self.gameOver:
-            font = Font(os.path.join("assets", "astron boy.ttf"), 100)
+            font = Font(Constants.config.getFontPath(), 100)
             game = font.render("GAME", True, (255,255,255))
             over = font.render("OVER", True, (255,255,255))
 

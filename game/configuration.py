@@ -12,7 +12,7 @@ class Configuration:
     
     def __init__(self, config):
         self.config = ConfigParser()
-        self.config.read(config)
+        self.config.read(self._getFilePath(config))
         self.imageCache = {
             "Cannon": self._getImageCache("Cannon"),
             "CircleBullet": self._getImageCache("CircleBullet"),
@@ -33,9 +33,9 @@ class Configuration:
             "TierTwoMult": float(self.config["GENERATOR"]["TierTwoMult"]),
             "TierThreeMult": float(self.config["GENERATOR"]["TierThreeMult"]),
 
-            "EasyPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["EasyPatterns"])),
-            "MediPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["MediPatterns"])),
-            "HardPatterns": os.path.join("assets", os.path.join("data", self.config["GENERATOR"]["HardPatterns"])),
+            "EasyPatterns": self._getFilePath(self.config["GENERATOR"]["EasyPatterns"], "assets", "data"),
+            "MediPatterns": self._getFilePath(self.config["GENERATOR"]["MediPatterns"], "assets", "data"),
+            "HardPatterns": self._getFilePath(self.config["GENERATOR"]["HardPatterns"], "assets", "data"),
 
             "PatternModulus": int(self.config["GENERATOR"]["PatternModulus"]),
             "Velocity": int(self.config["GENERATOR"]["Velocity"]),
@@ -50,6 +50,13 @@ class Configuration:
             "BulletTriangle": self._getHitBox(self.config["HITBOXES"]["BulletTriangle"]),
             "Player": self._getHitBox(self.config["HITBOXES"]["Player"])
         }
+        self.sounds = {
+            "Background": self._getFilePath(self.config["SOUNDS"]["Background"], "assets", "sounds"),
+            "Fire": self._getFilePath(self.config["SOUNDS"]["Fire"], "assets", "sounds"),
+            "Hit": self._getFilePath(self.config["SOUNDS"]["Hit"], "assets", "sounds"),
+            "Wrong": self._getFilePath(self.config["SOUNDS"]["Wrong"], "assets", "sounds"),
+            "Collision": self._getFilePath(self.config["SOUNDS"]["Collision"], "assets", "sounds")
+        }
 
     """Gets the image for Game Object"""
     def getGameImage(self, gameObject):
@@ -60,13 +67,32 @@ class Configuration:
 
     def getHitBox(self, sprite):
         return self.hitboxes[sprite]
+        
+    def getSound(self, sound):
+        return pygame.mixer.Sound(self.sounds[sound])
+        
+    def getFontPath(self):
+        return self._getFilePath(self.config["OTHER"]["Font"], "assets")
 
     def _getImageCache(self, gameObject):
         imageFile = self.config['IMAGES'][gameObject]
-        path = os.path.join("assets", "images")
-        image = pygame.image.load(os.path.join(path, imageFile)).convert_alpha()
+        path = self._getFilePath(imageFile, "assets", "images")
+        image = pygame.image.load(path).convert_alpha()
         return image
         
     def _getHitBox(self, rectString):
         x, y, width, height = rectString.split(",")
         return Rect(int(x), int(y), int(width), int(height))
+        
+    def _getFilePath(self, file, *args):
+        rel = ""
+        for part in args:
+            rel = os.path.join(rel, part)
+        rel = os.path.join(rel, file)
+        base = ""
+        try:
+            base = sys._MEIPASS
+        except Exception:
+            base = "."
+            
+        return os.path.join(base, rel)

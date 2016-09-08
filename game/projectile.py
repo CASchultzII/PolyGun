@@ -62,8 +62,8 @@ class ProjectilePool:
     def __init__(self):
         self.bullets = []
         self.targets = []
-        self.music_confirmation = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Confirmation.ogg")))
-        self.music_wrong = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "Wrong.ogg")))
+        self.music_confirmation = Constants.config.getSound("Hit")
+        self.music_wrong = Constants.config.getSound("Wrong")
         
         for x in range(50): # Use configuration supplied pool size
             self.bullets.append([False, Projectile(None, [0, 0], 0, 0)])

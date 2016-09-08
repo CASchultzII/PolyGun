@@ -19,7 +19,7 @@ class Game:
         Constants()
         Constants.config = configuration.Configuration('settings.ini')       
         pygame.display.set_caption("PolyGun")
-        self.music = pygame.mixer.Sound(os.path.join("assets", os.path.join("sounds", "DivideByZero-POL.ogg")))
+        self.music = Constants.config.getSound("Background")
         self.music.play(-1)
 
         if pygame.joystick.get_count() > 0:
@@ -47,7 +47,7 @@ class Game:
         self.screen.blit(Constants.config.getGameImage("Background"), [0, 0])
         self.pool.draw()
         self.player.draw()
-
+      
 game = Game()
 game.init()
 Constants.screen = game.screen #BAD BAD BAD... but no choice for now
