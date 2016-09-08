@@ -1,0 +1,6 @@
+future==0.15.2
+pefile==2016.3.28
+pygame==1.9.2b1
+PyInstaller==3.2
+pypiwin32==219
+virtualenv==15.0.3
